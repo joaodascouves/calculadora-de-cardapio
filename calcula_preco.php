@@ -32,13 +32,13 @@
 */
 
 /* Price to be added to each item. */
-$base_price = 2.00;
+$base_price = 2.50;
 
 /* Common ingredients. */
 $base_ingredients = [
 	/* ingredientName:String		=> [ingredientCost:Double, [blacklistedItems:String,]] */
 	'pao'	 						=> [1.00, []],
-	'hamburguer' 					=> [3.00, ['Misto', 'Frango']],
+	'hamburguer' 					=> [3.50, ['Misto', 'Frango']],
 	'salada' 						=> [1.00, ['Misto']],
 ];
 
@@ -49,7 +49,7 @@ $ingredients = [
 	'queijo'						=> 1.00,
 	'bacon'							=> 3.00,
 	'frango'						=> 4.00,
-	'presunto'						=> 1.00
+	'presunto'						=> 0.50
 ];
 
 /* 
@@ -130,7 +130,7 @@ function iterate_items($item)
 	];
 }
 
-function print_result($item)
+function print_result($item, $index)
 {
 	global $base_ingredients;
 
@@ -171,9 +171,10 @@ function print_result($item)
 		$name = substr($name, 1, strlen($name));
 	}
 
-	$dots = str_repeat('.', 100 - (strlen($name) + strlen($ingredients)) );
+	$dots = str_repeat('.', 100 - (strlen($name) + strlen($ingredients)) - ($index/9) );
 
-	echo sprintf("%s (%s) %s R$ %.2f\n",
+	echo sprintf("%d. %s (%s) %s R$ %.2f\n",
+		$index,
 		$name,
 		$ingredients,
 		$dots,
@@ -183,5 +184,5 @@ function print_result($item)
 $result = array_map('iterate_items', $items);
 
 echo "\n";
-array_map('print_result', $result);
+array_map('print_result', $result, range(1, sizeof($result)));
 echo "\n\n";
